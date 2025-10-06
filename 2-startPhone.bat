@@ -1,4 +1,5 @@
 set path=".\node-v24.8.0-win-x64"
+set JAVA_HOME="%~dp0jdk-17.0.2\"
 
 call npm run extractTrans
 
@@ -16,6 +17,7 @@ mkdir .\out\assets\images
 copy .\resource\other\realmgrinderui_new.png .\out\assets\images
 copy .\resource\other\realmgrinderui2_new.png .\out\assets\images
 
+mkdir .\out\android
 call npm run repackApk
 
 call npm run alignApk

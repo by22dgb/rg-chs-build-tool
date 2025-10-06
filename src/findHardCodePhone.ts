@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, readdirSync, statSync } from "fs";
+import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "fs";
 import { resolve } from "path";
 import { ReplaceInfo } from "./types";
 import { startFindHardCode } from "./findHardCode";
@@ -11,10 +11,14 @@ const abcPath = "out/abcPhone.dmp"
 async function main() {
 	let result = await startFindHardCode("phone", abcPath, scriptPath, pcodeFilePrefix, paramPrefix);
 
-	console.log("用下面的输出替换package.json中replaceTransMobile的内容")
-	console.log("==============================================")
-	console.log(paramPrefix + result);
-	console.log("==============================================")
+	// console.log("用下面的输出替换package.json中replaceTransMobile的内容")
+	// console.log("==============================================")
+	// console.log(paramPrefix + result);
+	// console.log("==============================================")
+
+	let json = readFileSync("package.json", {encoding: "utf-8"});
+	json = json.replace(/\n(\s+)\"replaceTrans\": [\s\S]+?\n/, `\n$1"replaceTrans": "${paramPrefix + result}",\n`);
+	writeFileSync("package.json", json, {encoding: "utf-8"});
 }
 
 main();
