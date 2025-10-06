@@ -7,7 +7,7 @@ Realm Grinder汉化构建工具
 1. 下载环境到根目录下(名称即目录或文件名)
 	1. [deflateUtil.jar](https://github.com/binfenshengdai/deflateUtil/releases/download/1.0/deflateUtil.jar)
 	1. [ManifestEditor-2.0.jar](https://github.com/WindySha/ManifestEditor/releases/download/v2.0/ManifestEditor-2.0.jar)
-	1. ~~[FFDec](https://github.com/lgl017temp/jpexs-decompiler)(需自行编译)~~
+	1. ~~[FFDec2](https://github.com/lgl017temp/jpexs-decompiler)(需自行编译)~~
 	1. [Poedit](https://poedit.net/download)(安装后将Poedit目录复制到根目录下)
 	1. [Android/Sdk/build-tools/34.0.0](https://dl.google.com/android/repository/build-tools_r34-windows.zip)(将文件复制到34.0.0目录下)
 
