@@ -68,7 +68,7 @@ export const replaceList: ReplaceInfo[] = [
 		{oper: "replace", line: "{fontSizeLine2}", str: [`pushbyte 28`]},
 	]}},
 	//Mute走翻译
-	{env: "all", search: {str: `"Mute";`, addi: [], type: "method"}, result: [], pcode: {name: "initializeElement_option.pcode", modify: [
+	{env: "pc", search: {str: `"Mute";`, addi: [], type: "method"}, result: [], pcode: {name: "initializeElement_option.pcode", modify: [
 		{oper: "find", out: "strLine", cond: {type: "comm", comm: "pushstring", param: `"Mute"`, idx: 1}, result: 0},
 		{oper: "insert", line: "{strLine}", str: [`callproperty QName(PackageNamespace(""),"_"), 1`]},
 		{oper: "insert", line: "{strLine} - 1", str: [`findpropstrict QName(PackageNamespace(""),"_")`]},
