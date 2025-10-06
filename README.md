@@ -29,4 +29,4 @@ Realm Grinder汉化构建工具
 1. 将最新的翻译文件放到resource\RG-翻译表.xlsx
 1. 修改package.json中, modifyVersion内的版本号到最新apk版本号(2处, 按对应格式)
 1. 执行1-startPC.bat及2-startPhone.bat生成结果文件
-1. 结果生成在out目录, pc端替换steam文件, 安卓端将apk发送至手机安装
+1. 结果生成在dist目录, pc端替换steam文件, 安卓端将apk发送至手机安装
