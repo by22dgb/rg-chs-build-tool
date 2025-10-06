@@ -118,6 +118,9 @@ export const replaceList: ReplaceInfo[] = [
 	]}},
 	//高级选项框高度
 	{env: "phone", search: {str: `"Scientific Notation"`, addi: [], type: "method"}, result: [], pcode: {name: "advOptions.pcode", modify: [
+		{oper: "find", out: "strLine", cond: {type: "comm", comm: "pushstring", param: `"Mute"`, idx: 1}, result: 0},
+		{oper: "insert", line: "{strLine}", str: [`callproperty QName(PackageNamespace(""),"_"), 1`]},
+		{oper: "insert", line: "{strLine} - 1", str: [`findpropstrict QName(PackageNamespace(""),"_")`]},
 		{oper: "find", out: "heightLine1", cond: {type: "comm", comm: "pushshort", param: `580`, idx: 1}, result: 0},
 		{oper: "replace", line: "{heightLine1}", str: [`pushshort 610`]},
 		{oper: "find", out: "heightLine2", cond: {type: "comm", comm: "pushshort", param: `275`, idx: 1}, result: 0},

@@ -17,7 +17,7 @@ async function main() {
 	// console.log("==============================================")
 
 	let json = readFileSync("package.json", {encoding: "utf-8"});
-	json = json.replace(/\n(\s+)\"replaceTrans\": [\s\S]+?\n/, `\n$1"replaceTrans": "${paramPrefix + result}",\n`);
+	json = json.replace(/\n(\s+)\"replaceTransMobile\": [\s\S]+?\n/, `\n$1"replaceTransMobile": "${paramPrefix + result}",\n`);
 	writeFileSync("package.json", json, {encoding: "utf-8"});
 }
 
