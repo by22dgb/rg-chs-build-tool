@@ -1,0 +1,36 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "esnext",
+		"moduleResolution": "node",
+		"strict": true,
+		"importHelpers": true,
+		"experimentalDecorators": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"noEmit": true,
+		"jsx": "preserve",
+		"sourceMap": true,
+		"isolatedModules": true,
+		"useDefineForClassFields": false,
+		"baseUrl": ".",
+		"lib": [
+			"esnext",
+			"dom",
+			"dom.iterable",
+			"scripthost",
+		],
+	},
+	"ts-node": {
+		"compilerOptions": {
+			"module": "esnext"
+		},
+		"transpileOnly": true,
+		"files": true
+	},
+	"include": [
+		"**/*.ts",
+	],
+	"exclude": [
+	]
+}
