@@ -8,8 +8,4 @@ call npm run exportPcode
 
 call npm run exportABC
 
-call npm run extractTrans
-
-call npm run findReplaceParam
-
 pause 

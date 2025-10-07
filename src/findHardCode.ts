@@ -166,6 +166,11 @@ export const replaceList: ReplaceInfo[] = [
 		{oper: "find", out: "strLine", cond: {type: "comm", comm: "pushstring", param: `"Gold"`, idx: 1}, result: 0},
 		{oper: "replace", line: "{strLine}", str: [`pushstring "Currencies"`]},
 	]}},
+	// //Pixel Azure Bonds改Liony(android 15+ 不显示中文)
+	// {env: "phone", search: {str: `new FontDescription("Pixel Azure Bonds"`, addi: [], type: "method"}, result: [], pcode: {name: "changeFont.pcode", modify: [
+	// 	{oper: "find", out: "strLine", cond: {type: "comm", comm: "pushstring", param: `"Pixel Azure Bonds"`, idx: 1}, result: 0},
+	// 	{oper: "replace", line: "{strLine}", str: [`pushstring "Liony"`]},
+	// ]}},
 ];
 
 export function listFiles(path: string, filter: (name: string) => boolean, result: string[] = [], subPath: string[] = []) {
@@ -502,7 +507,7 @@ export async function startFindHardCode(env: "pc" | "phone", abcPath: string, sc
 	allFiles.forEach(file => {
 		findFuncs(env, file, abcInfo, scriptPath);
 	});
-	
+
 	let result = replaceList.filter(info => info.env === env || info.env === "all").map(replace => {
 		if (!replace.result.length) {
 			console.warn("find code fail: " + JSON.stringify(replace));
@@ -510,6 +515,12 @@ export async function startFindHardCode(env: "pc" | "phone", abcPath: string, sc
 		}
 		if (replace.result.length > 1) {
 			console.warn("find code in multi place: " + JSON.stringify(replace));
+			return "";
+		}
+
+		let dup = replaceList.filter(r => r.result[0] && r.result[0].method === replace.result[0].method);
+		if (dup.length > 1) {
+			console.warn("multi replace in same place: " + JSON.stringify(dup));
 			return "";
 		}
 

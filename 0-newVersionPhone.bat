@@ -8,8 +8,4 @@ call npm run exportPcodePhone
 
 call npm run exportABCPhone
 
-call npm run extractTrans
-
-call npm run findReplaceParamPhone
-
 pause 
