@@ -11,6 +11,8 @@ call npm run replaceTransMobile
 
 call npm run modifyVersion
 
+call npm run modifyVersionUUID
+
 mkdir .\out\assets\fonts
 copy .\resource\other\floating_bitmap.fnt .\out\assets\fonts
 mkdir .\out\assets\images
