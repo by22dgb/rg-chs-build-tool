@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSy
 import { resolve } from "path";
 import { PcodeInfo, ReplaceInfo } from "./types";
 
-export const replaceList: ReplaceInfo[] = [
+export const replaceList1: ReplaceInfo[] = [
 	//法术名走翻译
 	{env: "pc", search: {str: `Großes Gleichge`, addi: [], type: "method"}, result: [], pcode: {name: "getSpellName.pcode", modify: [
 		{oper: "find", out: "endLine", cond: {type: "comm", comm: "returnvalue", idx: -1}, result: 0},
@@ -34,10 +34,12 @@ export const replaceList: ReplaceInfo[] = [
 		{oper: "find", out: "strLine", cond: {type: "comm", comm: "pushstring", param: `"BUY ALL"`, idx: 1}, result: 0},
 		{oper: "insert", line: "{strLine} + 1", str: [`pushstring " "`, `pushstring ""`, `callproperty QName(Namespace("http://adobe.com/AS3/2006/builtin"),"replace"), 2`]},
 	]}},
-	//语言-改"中文"
+	//语言-改"中文"，检测中文
 	{env: "all", search: {str: `Español`, addi: [], type: "cinit"}, result: [], pcode: {name: "translation.pcode", modify: [
 		{oper: "find", out: "langLine", cond: {type: "comm", comm: "pushstring", param: `"Español"`, idx: 1}, result: 0},
 		{oper: "replace", line: "{langLine}", str: [`pushstring "中文"`]},
+		{oper: "find", out: "langMappingLine", cond: {type: "comm", comm: "pushstring", param: `"es-es"`, idx: 1}, result: 0},
+		{oper: "replace", line: "{langMappingLine}", str: [`pushstring "zh-cn"`]},
 	]}},
 	//建筑提示ctrl+shift+click走翻译
 	{env: "pc", search: {str: `(CTRL+SHIFT+Click)`, addi: [], type: "method"}, result: [], pcode: {name: "getTooltip.pcode", modify: [
@@ -166,12 +168,29 @@ export const replaceList: ReplaceInfo[] = [
 		{oper: "find", out: "strLine", cond: {type: "comm", comm: "pushstring", param: `"Gold"`, idx: 1}, result: 0},
 		{oper: "replace", line: "{strLine}", str: [`pushstring "Currencies"`]},
 	]}},
-	// //Pixel Azure Bonds改Liony(android 15+ 不显示中文)
-	// {env: "phone", search: {str: `new FontDescription("Pixel Azure Bonds"`, addi: [], type: "method"}, result: [], pcode: {name: "changeFont.pcode", modify: [
-	// 	{oper: "find", out: "strLine", cond: {type: "comm", comm: "pushstring", param: `"Pixel Azure Bonds"`, idx: 1}, result: 0},
-	// 	{oper: "replace", line: "{strLine}", str: [`pushstring "Liony"`]},
-	// ]}},
+	//统计最大助手去掉最后句号
+	{env: "all", search: {str: `"Assistants (Max): %0"`, addi: [], type: "method"}, result: [], pcode: {name: "statistics.pcode", modify: [
+		{oper: "find", out: "strLine", cond: {type: "comm", comm: "pushstring", param: `"."`, idx: 1}, result: 0},
+		{oper: "replace", line: "{strLine}", str: [`pushstring ""`]},
+	]}},
 ];
+
+export const replaceList2: ReplaceInfo[] = [
+	//TODO 关联多文件检索
+	{env: "pc", search: {str: `§-!4§[param1].§<!7§`, addi: [], type: "method"}, result: [], pcode: {name: "showAllFactionUpgrades.pcode", modify: [
+		{oper: "find", out: "startLine", cond: {type: "comm", comm: "pushscope", idx: 1}, result: 0},
+		{oper: "find", out: "endLine", cond: {type: "comm", comm: "returnvalue", idx: 1}, result: 0},
+		{oper: "delete", start: "{startLine} + 1", end: "{endLine} - 1"},
+		{oper: "insert", line: "{startLine}", str: [`pushtrue`]},
+	]}},
+]
+
+let args = process.argv.slice(2);
+
+let replaceList = replaceList1.slice();
+if (args[0] && args[0] === "cheat") {
+	replaceList.push(...replaceList2);
+}
 
 export function listFiles(path: string, filter: (name: string) => boolean, result: string[] = [], subPath: string[] = []) {
 	let finalPath = [path, ...subPath].join("/");
@@ -266,7 +285,7 @@ export function genPcode(replace: ReplaceInfo, outPath: string) {
 
 	let find = replace.search.type === "cinit";
 	let start = false;
-	let findMethodName = replaceResult.method.split(":")[2];
+	let findMethodName = replaceResult.method.split(":").pop();
 
 	let lines = str.split("\n");
 	lines.forEach((line, i) => {
@@ -459,7 +478,7 @@ export function genPcode(replace: ReplaceInfo, outPath: string) {
 	//#endregion
 
 	// if (replaceList.indexOf(replace) === replaceList.length - 1) {
-	// 	console.log(finish, variables);
+	// 	console.log(replace, finish, variables);
 	// }
 
 	let outStr = resultPcodesInfo.map(info => info.str).join("\n");
