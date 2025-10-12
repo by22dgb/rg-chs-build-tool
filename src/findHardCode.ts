@@ -173,6 +173,11 @@ export const replaceList1: ReplaceInfo[] = [
 		{oper: "find", out: "strLine", cond: {type: "comm", comm: "pushstring", param: `"."`, idx: 1}, result: 0},
 		{oper: "replace", line: "{strLine}", str: [`pushstring ""`]},
 	]}},
+	//导出模板
+	{env: "all", search: {str: `"iso-8859-1"`, addi: [], type: "method"}, result: [], pcode: {name: "exportTemplate.pcode", modify: [
+		{oper: "find", out: "strLine", cond: {type: "comm", comm: "pushstring", param: `"iso-8859-1"`, idx: 1}, result: 0},
+		{oper: "replace", line: "{strLine}", str: [`pushstring "utf-8"`]},
+	]}},
 ];
 
 export const replaceList2: ReplaceInfo[] = [
